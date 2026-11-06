@@ -61,7 +61,16 @@ export type HeroContent = {
   image: MediaAsset;
 };
 
-export type ShowreelContent = { label: string; caption: string; image: MediaAsset };
+export type ShowreelContent = {
+  label: string;
+  caption: string;
+  /** Cover shown before the video plays. */
+  image: MediaAsset;
+  /** YouTube video id (the part after youtu.be/). The player only loads after a click. */
+  youtubeId?: string;
+  /** Accessible label of the play button. */
+  playLabel: string;
+};
 
 export type ServiceMedia =
   | { type: "image"; asset: MediaAsset }

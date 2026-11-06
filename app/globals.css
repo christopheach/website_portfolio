@@ -77,10 +77,16 @@
 
   --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
   --animate-rec: rec 1.2s steps(2, jump-none) infinite;
+  /* Stays lit, then blinks once every 5 seconds. */
+  --animate-blink-5s: blink-5s 5s ease-in-out infinite;
 
   @keyframes marquee {
     from { transform: translateX(0); }
     to { transform: translateX(calc(-50% - var(--marquee-gap, 1rem) / 2)); }
+  }
+  @keyframes blink-5s {
+    0%, 88%, 100% { opacity: 1; }
+    92%, 96% { opacity: 0.1; }
   }
   @keyframes rec {
     0% { opacity: 1; }

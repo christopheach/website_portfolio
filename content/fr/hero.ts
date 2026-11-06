@@ -23,7 +23,8 @@ export const hero = {
 } satisfies HeroContent;
 
 export const showreel = {
-  label: "Showreel 2026",
-  caption: "Paris, Marseille et Lisbonne. Douze tournages en deux minutes.",
+  label: "Projet « Une histoire d'amour à Paris »",
+  caption: "Paris",
   image: media.showreel.cover,
+  playLabel: "Lire le showreel",
 } satisfies ShowreelContent;

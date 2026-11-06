@@ -26,4 +26,5 @@ export const showreel = {
   label: "Showreel 2026",
   caption: "Paris, Marseille and Lisbon. Twelve shoots in two minutes.",
   image: media.showreel.cover,
+  playLabel: "Play the showreel",
 } satisfies ShowreelContent;

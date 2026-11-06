@@ -28,7 +28,7 @@ export const media = {
     portrait: { src: "/images/hero.jpg", alt: "Personne en chemise et cravate mangeant des chips sur un banc, photographiée en contre-plongée" },
   },
   showreel: {
-    cover: { src: placeholder("reel", 1920, 1080), alt: "Image extraite du showreel 2026" },
+    cover: { src: "/images/showreel.jpg", alt: "Deux personnes assises dans l'herbe d'un parc, discutant face aux toits de Paris" },
   },
   services: {
     campaign: { src: placeholder("campaign", 1200, 900), alt: "Photo de campagne d'un mannequin dans une douce lumière de fenêtre" },
