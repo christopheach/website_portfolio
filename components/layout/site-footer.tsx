@@ -43,10 +43,10 @@ export function SiteFooter({ footer, site, ui }: SiteFooterProps) {
       </div>
 
       <div className="container-page flex flex-col items-center text-center">
-        <Logo name={site.name} initials={site.initials} label={ui.homeLabel} className="text-base" />
+        <Logo name={site.name} label={ui.homeLabel} className="h-14" />
         <p className="mt-4 max-w-xs text-sm leading-relaxed text-pretty text-muted-foreground">{footer.tagline}</p>
 
-        <nav aria-label="Footer" className="mt-8">
+        <nav aria-label="Pied de page" className="mt-8">
           <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
             {footer.links.map((link) => (
               <li key={link.href}>

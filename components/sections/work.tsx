@@ -81,7 +81,7 @@ function WorkCard({ item, content }: { item: WorkItem; content: WorkContent }) {
           asset={item.image}
           aspect="tall"
           radius="none"
-          sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 92vw"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 45vw, 92vw"
           imageClassName="transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         >
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/0 to-black/0" />

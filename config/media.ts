@@ -25,39 +25,39 @@ const placeholder = (seed: string, width: number, height: number) =>
 
 export const media = {
   hero: {
-    portrait: { src: placeholder("hero", 1000, 1250), alt: "Portrait framed through a camera viewfinder" },
+    portrait: { src: placeholder("hero", 1000, 1250), alt: "Portrait cadré à travers le viseur d'une caméra" },
   },
   showreel: {
-    cover: { src: placeholder("reel", 1920, 1080), alt: "Still frame from the 2026 showreel" },
+    cover: { src: placeholder("reel", 1920, 1080), alt: "Image extraite du showreel 2026" },
   },
   services: {
-    campaign: { src: placeholder("campaign", 1200, 900), alt: "Campaign photograph of a model in soft window light" },
+    campaign: { src: placeholder("campaign", 1200, 900), alt: "Photo de campagne d'un mannequin dans une douce lumière de fenêtre" },
     shortForm: [
-      { src: placeholder("reel-1", 1200, 900), alt: "Behind the scenes of a short-form shoot" },
-      { src: placeholder("reel-2", 1200, 900), alt: "Vertical film frame shot on a Paris street" },
-      { src: placeholder("reel-3", 1200, 900), alt: "Close-up frame from a product reel" },
+      { src: placeholder("reel-1", 1200, 900), alt: "Coulisses d'un tournage de vidéo courte" },
+      { src: placeholder("reel-2", 1200, 900), alt: "Image verticale tournée dans une rue de Paris" },
+      { src: placeholder("reel-3", 1200, 900), alt: "Gros plan extrait d'un reel produit" },
     ],
     narrative: [
-      { src: placeholder("mv-1", 1200, 900), alt: "Music video frame lit in red neon" },
-      { src: placeholder("mv-2", 1200, 900), alt: "Wide frame from a short documentary" },
-      { src: placeholder("mv-3", 1200, 900), alt: "Artist performing in a dark studio" },
+      { src: placeholder("mv-1", 1200, 900), alt: "Image de clip éclairée au néon rouge" },
+      { src: placeholder("mv-2", 1200, 900), alt: "Plan large extrait d'un court documentaire" },
+      { src: placeholder("mv-3", 1200, 900), alt: "Artiste en performance dans un studio sombre" },
     ],
-    gradeBefore: { src: placeholder("grade", 1200, 900), alt: "Ungraded log footage" },
-    gradeAfter: { src: placeholder("grade", 1200, 900), alt: "The same footage after colour grading" },
+    gradeBefore: { src: placeholder("grade", 1200, 900), alt: "Images log non étalonnées" },
+    gradeAfter: { src: placeholder("grade", 1200, 900), alt: "Les mêmes images après étalonnage" },
   },
   work: {
-    lookbook: { src: placeholder("work-lookbook", 800, 1000), alt: "Model in a tailored coat for an autumn lookbook" },
-    musicVideo: { src: placeholder("work-mv", 800, 1000), alt: "Singer under street lights in a music video" },
-    productLaunch: { src: placeholder("work-product", 800, 1000), alt: "Product still life on a stone surface" },
-    portraits: { src: placeholder("work-portraits", 800, 1000), alt: "Black and white portrait of a young man" },
-    brandFilm: { src: placeholder("work-cafe", 800, 1000), alt: "Barista pouring coffee in a Paris café" },
-    tourDiary: { src: placeholder("work-tour", 800, 1000), alt: "Artist backstage before a concert" },
+    lookbook: { src: placeholder("work-lookbook", 800, 1000), alt: "Mannequin en manteau ajusté pour un lookbook d'automne" },
+    musicVideo: { src: placeholder("work-mv", 800, 1000), alt: "Chanteuse sous les lampadaires dans un clip" },
+    productLaunch: { src: placeholder("work-product", 800, 1000), alt: "Nature morte de produit sur une surface en pierre" },
+    portraits: { src: placeholder("work-portraits", 800, 1000), alt: "Portrait en noir et blanc d'un jeune homme" },
+    brandFilm: { src: placeholder("work-cafe", 800, 1000), alt: "Barista servant un café dans un café parisien" },
+    tourDiary: { src: placeholder("work-tour", 800, 1000), alt: "Artiste en coulisses avant un concert" },
   },
   why: {
-    feature: { src: placeholder("direction", 900, 1100), alt: "Directing a model's pose during a shoot" },
+    feature: { src: placeholder("direction", 900, 1100), alt: "Direction de la pose d'un mannequin pendant un shooting" },
   },
   about: {
-    portrait: { src: placeholder("about", 900, 900), alt: "Portrait of Fayad Aiechou" },
+    portrait: { src: placeholder("about", 900, 900), alt: "Portrait de Fayad Aiechou" },
   },
   avatars: {
     a1: { src: placeholder("avatar-1", 160, 160), alt: "" },

@@ -3,7 +3,7 @@ import type { SiteContent, UiStrings, NavigationContent, FooterContent } from "@
 export const site = {
   locale: "en",
   intlLocale: "en-GB",
-  name: "Fayad Aiechou",
+  name: "Studio Cabines",
   shortName: "Fayad",
   initials: "FA",
   jobTitle: "Photographer & Cinematographer",
@@ -36,7 +36,7 @@ export const ui = {
   openMenu: "Open menu",
   closeMenu: "Close menu",
   menuTitle: "Navigation",
-  homeLabel: "Fayad Aiechou, back to top",
+  homeLabel: "Studio Cabines, back to top",
   previousMonth: "Previous month",
   nextMonth: "Next month",
   showSlide: "Show image {index} of {total}",

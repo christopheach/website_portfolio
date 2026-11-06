@@ -10,7 +10,7 @@ export function About({ content, socials }: { content: AboutContent; socials: So
     <Section id={content.id} aria-labelledby={`${content.id}-title`}>
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,0.9fr)_1fr] md:gap-14">
         <Reveal>
-          <MediaImage asset={content.image} aspect="square" radius="2xl" className="border" sizes="(min-width: 768px) 420px, 92vw" />
+          <MediaImage asset={content.image} aspect="square" radius="2xl" className="border" sizes="(min-width: 768px) 45vw, 92vw" />
         </Reveal>
 
         <Reveal delay={0.1} className="flex flex-col items-start">

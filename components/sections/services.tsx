@@ -15,7 +15,7 @@ import { Reveal } from "@/components/motion/reveal";
 
 type ServicesProps = { content: ServicesContent; ui: UiStrings };
 
-const MEDIA_SIZES = "(min-width: 1024px) 420px, 90vw";
+const MEDIA_SIZES = "(min-width: 1024px) 50vw, 90vw";
 
 export function Services({ content, ui }: ServicesProps) {
   const listRef = React.useRef<HTMLOListElement>(null);
@@ -59,9 +59,9 @@ export function Services({ content, ui }: ServicesProps) {
           >
             <Card size="lg" className="origin-top grid items-center gap-8 bg-card lg:grid-cols-2 lg:gap-10">
               <div className="flex flex-col items-start gap-3 lg:pl-2">
-                <CardTitle className="text-xl md:text-2xl">{service.title}</CardTitle>
+                <CardTitle className="text-xl md:text-2xl xl:text-3xl">{service.title}</CardTitle>
                 {service.paragraphs.map((paragraph) => (
-                  <CardDescription key={paragraph.slice(0, 24)} className="max-w-sm">
+                  <CardDescription key={paragraph.slice(0, 24)} className="max-w-sm xl:max-w-lg xl:text-base">
                     {paragraph}
                   </CardDescription>
                 ))}

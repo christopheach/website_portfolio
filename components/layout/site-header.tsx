@@ -26,9 +26,9 @@ export function SiteHeader({ navigation, site, ui }: SiteHeaderProps) {
       <div className="container-page pt-3">
         <div
           data-scrolled={scrolled}
-          className="mx-auto flex h-13 max-w-2xl items-center justify-between gap-4 rounded-xl border border-transparent pr-2 pl-3 transition-[background-color,border-color] duration-300 data-[scrolled=true]:border-border data-[scrolled=true]:bg-background/70 data-[scrolled=true]:backdrop-blur-xl motion-reduce:transition-none"
+          className="mx-auto flex h-13 w-full items-center justify-between gap-4 rounded-xl md:w-fit md:justify-center md:gap-8 lg:gap-12 border border-transparent pr-2 pl-3 transition-[background-color,border-color] duration-300 data-[scrolled=true]:border-border data-[scrolled=true]:bg-background/70 data-[scrolled=true]:backdrop-blur-xl motion-reduce:transition-none"
         >
-          <Logo name={site.name} initials={site.initials} label={ui.homeLabel} />
+          <Logo name={site.name} label={ui.homeLabel} />
 
           <nav aria-label={ui.menuTitle} className="hidden md:block">
             <ul className="flex items-center">

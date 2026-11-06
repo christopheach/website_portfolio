@@ -65,7 +65,7 @@ export function Hero({ content, ui }: HeroProps) {
             id="hero-title"
             data-hero-item
             data-hero-title
-            className="mt-6 text-[2.45rem] leading-[1.02] font-medium tracking-[-0.045em] text-balance sm:text-5xl lg:text-[3.55rem]"
+            className="mt-6 text-[2.45rem] leading-[1.02] font-medium tracking-[-0.045em] text-balance sm:text-5xl lg:text-[3.55rem] xl:text-[clamp(4.25rem,4.4vw,7.5rem)]"
           >
             {content.titleLines.map((line) => (
               <span key={line} className="block overflow-hidden pb-[0.06em]">
@@ -79,7 +79,7 @@ export function Hero({ content, ui }: HeroProps) {
           <p
             data-hero-item
             data-hero-fade
-            className="mt-5 max-w-md text-sm leading-relaxed text-pretty text-muted-foreground md:text-base"
+            className="mt-5 max-w-md text-sm leading-relaxed text-pretty text-muted-foreground md:text-base xl:max-w-xl xl:text-lg 2xl:max-w-2xl 2xl:text-xl"
           >
             {content.description}
           </p>
@@ -151,7 +151,7 @@ function HeroMedia({ content }: { content: HeroContent }) {
   }
 
   return (
-    <div data-hero-item data-hero-media className="relative mx-auto w-full max-w-sm [perspective:1200px] lg:max-w-none">
+    <div data-hero-item data-hero-media className="relative mx-auto w-full max-w-sm [perspective:1200px] lg:mr-0 lg:max-w-[min(100%,60vh)]">
       <Glow className="inset-x-6 -inset-y-6 opacity-80" blur="lg" />
       <motion.div
         onPointerMove={handlePointerMove}
@@ -166,7 +166,7 @@ function HeroMedia({ content }: { content: HeroContent }) {
               aspect="portrait"
               radius="none"
               preload
-              sizes="(min-width: 1024px) 420px, (min-width: 640px) 384px, 90vw"
+              sizes="(min-width: 1024px) 60vh, (min-width: 640px) 384px, 90vw"
             />
           </div>
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { getDictionary } from "@/content";
 
-export const alt = "Fayad Aiechou, photographer and cinematographer in Paris";
+export const alt = "Studio Cabines, photographe et vidéaste à Paris";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

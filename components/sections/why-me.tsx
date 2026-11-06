@@ -34,7 +34,7 @@ export function WhyMe({ content }: { content: WhyContent }) {
               asset={content.feature.image}
               radius="none"
               className="absolute inset-0 -z-10"
-              sizes="(min-width: 1024px) 480px, 92vw"
+              sizes="(min-width: 1024px) 55vw, 92vw"
               imageClassName="transition-transform duration-1000 ease-out group-hover:scale-105 motion-reduce:transition-none"
             />
             <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/35 to-black/0" />

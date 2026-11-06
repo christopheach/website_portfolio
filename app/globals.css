@@ -93,6 +93,8 @@
     @apply border-border outline-ring/50;
   }
   html {
+    /* 16px up to 1920px wide, then grows gently (max 20px) so large screens keep the same proportions. */
+    font-size: clamp(100%, 0.5vw + 0.4rem, 125%);
     color-scheme: dark;
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
@@ -113,12 +115,8 @@
 /* Centred page column used by every section. */
 @utility container-page {
   width: 100%;
-  max-width: 60rem;
   margin-inline: auto;
-  padding-inline: 1.25rem;
-  @media (width >= 48rem) {
-    padding-inline: 2rem;
-  }
+  padding-inline: clamp(1rem, 3vw, 3.5rem);
 }
 
 /* Diagonal hatching used by the template for empty media areas. */

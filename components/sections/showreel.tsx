@@ -32,7 +32,7 @@ export function Showreel({ content }: { content: ShowreelContent }) {
       <div className="container-page">
         <figure data-reel-frame className="relative overflow-hidden rounded-2xl border will-change-transform">
           <div data-reel-still className="scale-[1.14]">
-            <MediaImage asset={content.image} aspect="video" radius="none" sizes="(min-width: 960px) 900px, 100vw" />
+            <MediaImage asset={content.image} aspect="video" radius="none" sizes="100vw" />
           </div>
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/10" />
           <figcaption className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-2 p-4 md:p-6">

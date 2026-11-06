@@ -1,6 +1,6 @@
 import type { MediaAsset } from "@/config/media";
 
-export type Locale = "en";
+export type Locale = "en" | "fr";
 
 export type LinkItem = { label: string; href: string };
 
