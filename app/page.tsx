@@ -17,7 +17,7 @@ import { Work } from "@/components/sections/work";
 import { JsonLd } from "@/components/seo/json-ld";
 
 export default function HomePage() {
-  const t = getDictionary();
+  const t = getDictionary(); 
 
   return (
     <>
