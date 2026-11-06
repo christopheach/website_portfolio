@@ -3,9 +3,9 @@ import type { HeroContent, ShowreelContent } from "@/types/content";
 
 export const hero = {
   availability: "Plus que 3 jours de tournage ce printemps",
-  titleLines: ["Un pro vous", "semble cher ? Attendez", "de voir ce que coûte", "un amateur."],
+  titleLines: ["On ne fait pas de la pub,", "On fait parler !"],
   description:
-    "Photos de campagne, films courts et clips pour les marques, les artistes et les créateurs. Tournés à Paris, pensés pour arrêter le scroll et retenir l'attention.",
+    "Un pro vous semble cher ?\nAttendez de voir ce que coûte un amateur.",
   primaryCta: { label: "Voir les projets", href: "#work" },
   secondaryCta: { label: "Voir les tarifs", href: "#pricing" },
   proof: {

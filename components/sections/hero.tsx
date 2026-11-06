@@ -79,7 +79,7 @@ export function Hero({ content, ui }: HeroProps) {
           <p
             data-hero-item
             data-hero-fade
-            className="mt-5 max-w-md text-sm leading-relaxed text-pretty text-muted-foreground md:text-base xl:max-w-xl xl:text-lg 2xl:max-w-2xl 2xl:text-xl"
+            className="mt-5 max-w-md text-sm leading-relaxed whitespace-pre-line text-pretty text-muted-foreground md:text-base xl:max-w-xl xl:text-lg 2xl:max-w-2xl 2xl:text-xl"
           >
             {content.description}
           </p>
@@ -166,7 +166,8 @@ function HeroMedia({ content }: { content: HeroContent }) {
               aspect="portrait"
               radius="none"
               preload
-              sizes="(min-width: 1024px) 60vh, (min-width: 640px) 384px, 90vw"
+              quality={90}
+              sizes="(min-width: 1024px) 70vh, (min-width: 640px) 440px, 100vw"
             />
           </div>
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />

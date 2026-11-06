@@ -25,7 +25,7 @@ const placeholder = (seed: string, width: number, height: number) =>
 
 export const media = {
   hero: {
-    portrait: { src: placeholder("hero", 1000, 1250), alt: "Portrait cadré à travers le viseur d'une caméra" },
+    portrait: { src: "/images/hero.jpg", alt: "Personne en chemise et cravate mangeant des chips sur un banc, photographiée en contre-plongée" },
   },
   showreel: {
     cover: { src: placeholder("reel", 1920, 1080), alt: "Image extraite du showreel 2026" },
