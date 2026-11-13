@@ -17,7 +17,7 @@ export const services = {
         "Each shoot starts with a moodboard and a shot list. On the day I handle lighting and direction, then retouch through to final delivery.",
       ],
       cta: bookShoot,
-      media: { type: "image", asset: media.services.campaign },
+      media: { type: "slideshow", assets: media.services.campaignCarousel, aspect: "portrait" },
     },
     {
       id: "short-form",

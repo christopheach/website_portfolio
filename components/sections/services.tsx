@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import type { ServiceMedia, ServicesContent, UiStrings } from "@/types/content";
-import { interpolate } from "@/lib/utils";
+import { cn, interpolate } from "@/lib/utils";
 import { DESKTOP_MOTION_OK, gsap, useGSAP } from "@/lib/gsap";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
@@ -85,7 +85,18 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
 
     case "slideshow":
       return (
-        <Slideshow label={title} className="aspect-[4/3] overflow-hidden rounded-lg bg-muted">
+        <Slideshow
+          label={title}
+          // The 4:5 campaign carousel changes every 4 s and has no dots.
+          interval={media.aspect === "portrait" ? 4000 : undefined}
+          className={cn(
+            "overflow-hidden rounded-lg bg-muted",
+            media.aspect === "portrait"
+              ? // 4:5, capped so the whole frame fits on screen inside the sticky card.
+                "mx-auto aspect-[4/5] w-full max-w-md lg:max-w-[min(100%,calc((100svh-12rem)*0.8))]"
+              : "aspect-[4/3]",
+          )}
+        >
           <SlideshowContent>
             {media.assets.map((asset) => (
               <SlideshowItem key={asset.src}>
@@ -93,7 +104,9 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
               </SlideshowItem>
             ))}
           </SlideshowContent>
-          <SlideshowDots getLabel={(index, total) => interpolate(ui.showSlide, { index, total })} />
+          {media.aspect !== "portrait" && (
+            <SlideshowDots getLabel={(index, total) => interpolate(ui.showSlide, { index, total })} />
+          )}
         </Slideshow>
       );
 

@@ -7,7 +7,7 @@ export const services = {
   id: "services",
   eyebrow: "Services",
   title: "Ce que je filme",
-  description: "Du simple portrait à la campagne complète : préparé, éclairé et livré par une seule personne.",
+  description: "Chaque projet commence par une intention, une atmosphère et une obsession du détail.",
   items: [
     {
       id: "campaign",
@@ -17,7 +17,7 @@ export const services = {
         "Chaque shooting commence par un moodboard et une liste de plans. Le jour J, je gère la lumière et la direction, puis la retouche jusqu'à la livraison finale.",
       ],
       cta: bookShoot,
-      media: { type: "image", asset: media.services.campaign },
+      media: { type: "slideshow", assets: media.services.campaignCarousel, aspect: "portrait" },
     },
     {
       id: "short-form",

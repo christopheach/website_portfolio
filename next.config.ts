@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // Lets the dev site load fully when opened by network IP (phone, other computer on the same Wi-Fi).
+  allowedDevOrigins: ["10.17.175.6"],
   images: {
     formats: ["image/avif", "image/webp"],
     // 75 = default for most images, 90 = hero photo (needs to stay crisp on large/retina screens).

@@ -9,6 +9,7 @@ import { Hero } from "@/components/sections/hero";
 import { Pricing } from "@/components/sections/pricing";
 import { Process } from "@/components/sections/process";
 import { Services } from "@/components/sections/services";
+import { GlassFrame } from "@/components/sections/glass-frame";
 import { Showreel } from "@/components/sections/showreel";
 import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
@@ -24,6 +25,31 @@ export default function HomePage() {
       <SiteHeader navigation={t.navigation} site={t.site} ui={t.ui} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero content={t.hero} ui={t.ui} />
+        {/* Placeholder text: change eyebrow, title, description and the button here. */}
+        <GlassFrame
+          videoSrc="/videos/LSL_NOEL_2026_VDEF_169_SANS_ST.mp4"
+          eyebrow="Photographie & vidéographie"
+          title="Les secrets de Loly"
+          cta={{ label: "VOIR +", href: "#work" }}
+          pauseLabel="Mettre la vidéo en pause"
+          playLabel="Lire la vidéo"
+        />
+        <GlassFrame
+          videoSrc="/videos/iceman.mp4"
+          eyebrow="Photographie & vidéographie"
+          title="Ice Man"
+          cta={{ label: "VOIR +", href: "#work" }}
+          pauseLabel="Mettre la vidéo en pause"
+          playLabel="Lire la vidéo"
+        />
+        <GlassFrame
+          videoSrc="/videos/nyx.mp4"
+          eyebrow="Photographie & vidéographie"
+          title="NYX"
+          cta={{ label: "VOIR +", href: "#work" }}
+          pauseLabel="Mettre la vidéo en pause"
+          playLabel="Lire la vidéo"
+        />
         <Showreel content={t.showreel} />
         <Services content={t.services} ui={t.ui} />
         <Work content={t.work} />

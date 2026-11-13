@@ -74,7 +74,7 @@ export type ShowreelContent = {
 
 export type ServiceMedia =
   | { type: "image"; asset: MediaAsset }
-  | { type: "slideshow"; assets: readonly MediaAsset[] }
+  | { type: "slideshow"; assets: readonly MediaAsset[]; /** "portrait" = 4:5 frame; default is 4:3. */ aspect?: "landscape" | "portrait" }
   | { type: "compare"; before: MediaAsset; after: MediaAsset; beforeLabel: string; afterLabel: string };
 
 export type ServiceItem = {

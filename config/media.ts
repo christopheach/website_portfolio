@@ -32,6 +32,11 @@ export const media = {
   },
   services: {
     campaign: { src: placeholder("campaign", 1200, 900), alt: "Photo de campagne d'un mannequin dans une douce lumière de fenêtre" },
+    /** Auto-playing carousel of the "Photographie de marque & de campagne" card (files in /public/images/carousel). */
+    campaignCarousel: Array.from({ length: 15 }, (_, i) => ({
+      src: `/images/carousel/campagne-${String(i + 1).padStart(2, "0")}.jpg`,
+      alt: `Photo de marque et de campagne ${i + 1} sur 15`,
+    })),
     shortForm: [
       { src: placeholder("reel-1", 1200, 900), alt: "Coulisses d'un tournage de vidéo courte" },
       { src: placeholder("reel-2", 1200, 900), alt: "Image verticale tournée dans une rue de Paris" },
