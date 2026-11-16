@@ -27,7 +27,7 @@ export const services = {
         "I plan the edit before I shoot, so you get coverage made for cutting: cutaways, movement and sound that keep people watching.",
       ],
       cta: bookShoot,
-      media: { type: "slideshow", assets: media.services.shortForm },
+      media: { type: "video", src: "/videos/hair-style-check.mp4", aspect: "9/16", label: 'Vertical video clip "Hair Style Check"' },
     },
     {
       id: "narrative",
@@ -37,7 +37,7 @@ export const services = {
         "I work solo for intimate projects, or bring a small crew with a gaffer, sound recordist and stylist for bigger days.",
       ],
       cta: bookShoot,
-      media: { type: "slideshow", assets: media.services.narrative },
+      media: { type: "video", src: "/videos/recap.mp4", aspect: "16/9", label: 'Video clip "Recap"' },
     },
     {
       id: "grading",

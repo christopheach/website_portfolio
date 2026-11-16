@@ -27,9 +27,10 @@ export function Services({ content, ui }: ServicesProps) {
       mm.add(DESKTOP_MOTION_OK, () => {
         const cards = gsap.utils.toArray<HTMLElement>("[data-service-card]");
         cards.slice(0, -1).forEach((card, index) => {
-          gsap.to(card.firstElementChild, {
+          // Dim with brightness, not opacity: a see-through card would let the card behind show through its text.
+          gsap.fromTo(card.firstElementChild, { scale: 1, filter: "brightness(1)" }, {
             scale: 0.94,
-            opacity: 0.45,
+            filter: "brightness(0.45)",
             ease: "none",
             scrollTrigger: { trigger: cards[index + 1], start: "top bottom", end: "top 30%", scrub: true },
           });
@@ -40,7 +41,13 @@ export function Services({ content, ui }: ServicesProps) {
   );
 
   return (
-    <Section id={content.id} aria-labelledby={`${content.id}-title`}>
+    <Section
+      id={content.id}
+      aria-labelledby={`${content.id}-title`}
+      // Gap above the heading = gap below it (header mb-12/md:mb-14): the video block above
+      // already leaves pb-14/md:pb-20, so pull up by the difference.
+      className="-mt-2 pt-0 md:-mt-6 md:pt-0"
+    >
       <Reveal>
         <SectionHeader>
           <SectionEyebrow>{content.eyebrow}</SectionEyebrow>
@@ -57,7 +64,8 @@ export function Services({ content, ui }: ServicesProps) {
             className="lg:sticky"
             style={{ top: `calc(6rem + ${index * 1.25}rem)` }}
           >
-            <Card size="lg" className="origin-top grid items-center gap-8 bg-card lg:grid-cols-2 lg:gap-10">
+            {/* Same height for every card on desktop so a taller card never peeks out under the next one. */}
+            <Card size="lg" className="origin-top grid items-center gap-8 bg-card lg:h-[min(calc(100svh-9rem),44rem)] lg:grid-cols-2 lg:gap-10">
               <div className="flex flex-col items-start gap-3 lg:pl-2">
                 <CardTitle className="text-xl md:text-2xl xl:text-3xl">{service.title}</CardTitle>
                 {service.paragraphs.map((paragraph) => (
@@ -93,7 +101,7 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
             "overflow-hidden rounded-lg bg-muted",
             media.aspect === "portrait"
               ? // 4:5, capped so the whole frame fits on screen inside the sticky card.
-                "mx-auto aspect-[4/5] w-full max-w-md lg:max-w-[min(100%,calc((100svh-12rem)*0.8))]"
+                "mx-auto aspect-[4/5] w-full max-w-md lg:h-full lg:max-h-full lg:w-auto lg:max-w-full"
               : "aspect-[4/3]",
           )}
         >
@@ -109,6 +117,9 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
           )}
         </Slideshow>
       );
+
+    case "video":
+      return <ServiceVideo src={media.src} aspect={media.aspect} label={media.label} />;
 
     case "compare": {
       // While both sides share one placeholder photo, fake an ungraded "log" look.
@@ -139,4 +150,39 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
       );
     }
   }
+}
+
+/** Muted looping video kept in its own format (e.g. 9:16), sized to the card height on desktop. */
+function ServiceVideo({ src, aspect, label }: { src: string; aspect: string; label: string }) {
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [w, h] = aspect.split("/").map(Number);
+  const isPortrait = h > w;
+
+  // Reduced motion: show a still frame instead of playing.
+  React.useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) videoRef.current?.pause();
+  }, []);
+
+  return (
+    <div
+      style={{ aspectRatio: aspect }}
+      className={cn(
+        "relative mx-auto overflow-hidden rounded-lg bg-muted",
+        // Vertical videos fill the card height; horizontal ones fill the column width.
+        isPortrait ? "w-full max-w-xs lg:h-full lg:max-h-full lg:w-auto lg:max-w-full" : "w-full",
+      )}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        aria-label={label}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="size-full object-cover"
+      />
+    </div>
+  );
 }

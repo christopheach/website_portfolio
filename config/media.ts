@@ -47,8 +47,9 @@ export const media = {
       { src: placeholder("mv-2", 1200, 900), alt: "Plan large extrait d'un court documentaire" },
       { src: placeholder("mv-3", 1200, 900), alt: "Artiste en performance dans un studio sombre" },
     ],
-    gradeBefore: { src: placeholder("grade", 1200, 900), alt: "Images log non étalonnées" },
-    gradeAfter: { src: placeholder("grade", 1200, 900), alt: "Les mêmes images après étalonnage" },
+    // Same photo on both sides: the "before" side is desaturated automatically to fake an ungraded look.
+    gradeBefore: { src: "/images/love-story.jpg", alt: "Photo « Love Story » avant étalonnage" },
+    gradeAfter: { src: "/images/love-story.jpg", alt: "La même photo « Love Story » après étalonnage" },
   },
   work: {
     lookbook: { src: placeholder("work-lookbook", 800, 1000), alt: "Mannequin en manteau ajusté pour un lookbook d'automne" },

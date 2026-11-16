@@ -15,7 +15,8 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Reveal } from "@/components/motion/reveal";
 
 export function Work({ content }: { content: WorkContent }) {
-  const [filter, setFilter] = React.useState<WorkFilter>("all");
+  // Starts on the first tab (Photo); there is no "all" tab.
+  const [filter, setFilter] = React.useState<WorkFilter>(content.filters[0]?.value ?? "all");
   const items = filter === "all" ? content.items : content.items.filter((item) => item.category === filter);
 
   return (
@@ -79,7 +80,7 @@ function WorkCard({ item, content }: { item: WorkItem; content: WorkContent }) {
 
         <MediaImage
           asset={item.image}
-          aspect="tall"
+          aspect="portrait"
           radius="none"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 45vw, 92vw"
           imageClassName="transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"

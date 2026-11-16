@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     root: __dirname,
   },
   // Lets the dev site load fully when opened by network IP (phone, other computer on the same Wi-Fi).
-  allowedDevOrigins: ["10.17.175.6"],
+  allowedDevOrigins: ["10.17.175.6", "192.168.1.188"],
   images: {
     formats: ["image/avif", "image/webp"],
     // 75 = default for most images, 90 = hero photo (needs to stay crisp on large/retina screens).

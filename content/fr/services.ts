@@ -11,9 +11,9 @@ export const services = {
   items: [
     {
       id: "campaign",
-      title: "Photographie de marque & de campagne",
+      title: "Photographie de marque et de campagne",
       paragraphs: [
-        "Lookbooks, lancements de produits et visuels de campagne avec une direction artistique claire, pour que chaque image appartienne à votre marque.",
+        "Lancements de produits et visuels de campagne avec une direction artistique claire, pour que chaque image appartienne à votre marque.",
         "Chaque shooting commence par un moodboard et une liste de plans. Le jour J, je gère la lumière et la direction, puis la retouche jusqu'à la livraison finale.",
       ],
       cta: bookShoot,
@@ -21,27 +21,27 @@ export const services = {
     },
     {
       id: "short-form",
-      title: "Films courts & reels",
+      title: "Vidéos courtes ( TikTok - Instagram )",
       paragraphs: [
-        "Des films verticaux et horizontaux pour Instagram, TikTok et YouTube, tournés pour accrocher dès la première seconde et retenir l'attention jusqu'à la dernière.",
+        "Des vidéos tournées pour accrocher dès la première seconde et retenir l'attention jusqu'à la dernière.",
         "Je prépare le montage avant de tourner : vous obtenez des rushes pensés pour le montage, avec plans de coupe, mouvements et son qui donnent envie de rester.",
       ],
       cta: bookShoot,
-      media: { type: "slideshow", assets: media.services.shortForm },
+      media: { type: "video", src: "/videos/hair-style-check.mp4", aspect: "9/16", label: "Extrait vidéo verticale « Hair Style Check »" },
     },
     {
       id: "narrative",
-      title: "Clips & fiction",
+      title: "Clips et fiction",
       paragraphs: [
         "Clips, courts documentaires et films de marque avec une vraie image de cinéma : mise en place, mouvements de caméra et lumière au service de l'histoire.",
         "Je travaille seul pour les projets intimes, ou avec une petite équipe (chef électro, ingé son et styliste) pour les journées plus ambitieuses.",
       ],
       cta: bookShoot,
-      media: { type: "slideshow", assets: media.services.narrative },
+      media: { type: "video", src: "/videos/recap.mp4", aspect: "16/9", label: "Extrait vidéo « Recap »" },
     },
     {
       id: "grading",
-      title: "Étalonnage & retouche",
+      title: "Étalonnage, retouche et montage vidéos",
       paragraphs: [
         "Vous avez déjà des vidéos ou des photos ? Je les étalonne et les retouche pour obtenir un rendu cohérent sur toute une série.",
         "Peau, lumière et couleurs sont corrigées à la main, puis harmonisées plan par plan pour que votre feed et vos films forment un ensemble.",

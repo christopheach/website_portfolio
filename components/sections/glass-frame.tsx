@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { PauseIcon, PlayIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Glow } from "@/components/ui/glow";
@@ -15,8 +14,6 @@ type GlassFrameProps = {
   /** Optional text under the title. */
   description?: string;
   cta?: { label: string; href: string };
-  pauseLabel?: string;
-  playLabel?: string;
 };
 
 /** 16:9 frosted-glass panel with an optional background video and centred text on top. */
@@ -26,32 +23,14 @@ export function GlassFrame({
   title,
   description,
   cta,
-  pauseLabel = "Mettre la vidéo en pause",
-  playLabel = "Lire la vidéo",
 }: GlassFrameProps) {
   const titleId = React.useId();
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [paused, setPaused] = React.useState(false);
 
-  // People who ask for reduced motion get a still frame; they can still press play.
+  // People who ask for reduced motion get a still frame.
   React.useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      videoRef.current?.pause();
-      setPaused(true);
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) videoRef.current?.pause();
   }, []);
-
-  function toggle() {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      void video.play();
-      setPaused(false);
-    } else {
-      video.pause();
-      setPaused(true);
-    }
-  }
 
   const hasText = Boolean(eyebrow || title || description || cta);
 
@@ -116,16 +95,6 @@ export function GlassFrame({
               </div>
             )}
 
-            {videoSrc && (
-              <button
-                type="button"
-                onClick={toggle}
-                aria-label={paused ? playLabel : pauseLabel}
-                className="absolute right-3 bottom-3 grid size-10 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-md outline-none transition-colors hover:bg-white/25 focus-visible:ring-[3px] focus-visible:ring-ring md:right-5 md:bottom-5"
-              >
-                {paused ? <PlayIcon aria-hidden className="ml-0.5 size-4 fill-current" /> : <PauseIcon aria-hidden className="size-4 fill-current" />}
-              </button>
-            )}
           </div>
         </div>
       </div>

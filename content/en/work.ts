@@ -8,7 +8,6 @@ export const work = {
   description: "Campaigns, portraits and films shot over the last two years.",
   filterLabel: "Filter projects",
   filters: [
-    { value: "all", label: "All" },
     { value: "photo", label: "Photography" },
     { value: "film", label: "Film" },
   ],

@@ -75,6 +75,8 @@ export type ShowreelContent = {
 export type ServiceMedia =
   | { type: "image"; asset: MediaAsset }
   | { type: "slideshow"; assets: readonly MediaAsset[]; /** "portrait" = 4:5 frame; default is 4:3. */ aspect?: "landscape" | "portrait" }
+  /** Muted looping video. `aspect` is the video's own width/height, e.g. "9/16" for a vertical reel. */
+  | { type: "video"; src: string; aspect: string; label: string }
   | { type: "compare"; before: MediaAsset; after: MediaAsset; beforeLabel: string; afterLabel: string };
 
 export type ServiceItem = {
