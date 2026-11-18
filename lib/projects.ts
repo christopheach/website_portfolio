@@ -14,7 +14,8 @@ type ProjectRow = {
   id: string;
   title: string;
   category: Project["category"];
-  client_name: string;
+  kind: Project["kind"];
+  client_name: string | null;
   client_verified: boolean;
   client_avatar_url: string | null;
   client_avatar_file_id: string | null;
@@ -32,6 +33,7 @@ type ProjectRow = {
 const COLUMNS = [
   "title",
   "category",
+  "kind",
   "client_name",
   "client_verified",
   "client_avatar_url",
@@ -49,8 +51,9 @@ function fromRow(row: ProjectRow): Project {
     id: row.id,
     title: row.title,
     category: row.category,
+    kind: row.kind,
     client: {
-      name: row.client_name,
+      name: row.client_name ?? undefined,
       verified: row.client_verified,
       avatar: row.client_avatar_url
         ? { url: row.client_avatar_url, fileId: row.client_avatar_file_id ?? undefined }
@@ -69,7 +72,8 @@ function toColumns(input: ProjectInput): Record<(typeof COLUMNS)[number], string
   return {
     title: input.title,
     category: input.category,
-    client_name: input.client.name,
+    kind: input.kind,
+    client_name: input.client.name ?? null,
     client_verified: input.client.verified,
     client_avatar_url: input.client.avatar?.url ?? null,
     client_avatar_file_id: input.client.avatar?.fileId ?? null,
@@ -151,13 +155,14 @@ export function toWorkItem(project: Project): WorkItem {
     id: project.id,
     title: project.title,
     category: project.category,
+    kind: project.kind,
     duration: project.category === "film" ? project.duration : undefined,
     href: project.href,
     client: {
       name: project.client.name,
       verified: project.client.verified,
-      // Decorative next to the client name; empty src renders the striped placeholder.
-      avatar: { src: project.client.avatar?.url ?? "", alt: "" },
+      // Decorative next to the name. Personal projects get the studio's mark; empty src = striped placeholder.
+      avatar: { src: project.client.avatar?.url ?? (project.kind === "personal" ? "/icon.svg" : ""), alt: "" },
     },
     image: { src: project.cover.url, alt: project.cover.alt },
   };

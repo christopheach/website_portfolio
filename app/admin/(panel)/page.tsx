@@ -69,8 +69,10 @@ export default async function AdminProjectsPage() {
                     )}
                   </div>
                   <p className="flex items-center gap-1 truncate text-sm text-muted-foreground">
-                    {project.client.name}
-                    {project.client.verified && <BadgeCheckIcon aria-label="Client vérifié" className="size-3.5 text-primary" />}
+                    {project.kind === "personal" ? "Projet personnel" : project.client.name || "Projet client"}
+                    {project.kind === "client" && project.client.name && project.client.verified && (
+                      <BadgeCheckIcon aria-label="Client vérifié" className="size-3.5 text-primary" />
+                    )}
                   </p>
                 </div>
                 <ProjectRowActions

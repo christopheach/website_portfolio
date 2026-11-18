@@ -9,3 +9,5 @@ next-env.d.ts
 
 # Original media files (served from Zipline, see config/media-manifest.json)
 /media-src
+# Original video masters (web versions are built from them by npm run media:videos)
+/media-originals

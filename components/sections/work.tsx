@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { MediaImage } from "@/components/ui/media-image";
+import { Spinner } from "@/components/ui/spinner";
 import { Section, SectionDescription, SectionEyebrow, SectionHeader, SectionTitle } from "@/components/ui/section";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Reveal } from "@/components/motion/reveal";
@@ -83,6 +84,7 @@ export function Work({ content }: { content: WorkContent }) {
       <Dialog open={open} onOpenChange={setOpen}>
         {selected && (
           <ProjectModal
+            key={selected.id}
             item={selected}
             content={content}
             onCloseAutoFocus={(event) => {
@@ -96,8 +98,20 @@ export function Work({ content }: { content: WorkContent }) {
   );
 }
 
+/** Who the project is for: the client's name, else "Projet personnel" / "Projet client". */
+function byline(item: WorkItem, content: WorkContent) {
+  if (item.kind === "personal") return content.personalLabel;
+  return item.client.name || content.clientLabel;
+}
+
+/** The verified badge only makes sense next to a named client. */
+function isVerifiedClient(item: WorkItem) {
+  return item.kind !== "personal" && Boolean(item.client.name) && Boolean(item.client.verified);
+}
+
 function WorkCard({ item, content, onOpen }: { item: WorkItem; content: WorkContent; onOpen: (from: HTMLElement) => void }) {
   const playable = item.category === "film" && getVideoEmbed(item.href) !== null;
+  const [loaded, setLoaded] = React.useState(!item.image.src);
 
   return (
     <article className="group relative">
@@ -106,8 +120,8 @@ function WorkCard({ item, content, onOpen }: { item: WorkItem; content: WorkCont
           <Avatar size="xs">
             <AvatarImage asset={item.client.avatar} />
           </Avatar>
-          <span className="truncate text-xs font-medium">{item.client.name}</span>
-          {item.client.verified && (
+          <span className="truncate text-xs font-medium">{byline(item, content)}</span>
+          {isVerifiedClient(item) && (
             <BadgeCheckIcon role="img" aria-label={content.verifiedLabel} className="size-3.5 shrink-0 text-primary" />
           )}
         </header>
@@ -117,8 +131,20 @@ function WorkCard({ item, content, onOpen }: { item: WorkItem; content: WorkCont
           aspect="portrait"
           radius="none"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 45vw, 92vw"
-          imageClassName="transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          data-fade-in
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+          imageClassName={cn(
+            "transition-[transform,opacity] duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+            loaded ? "opacity-100" : "opacity-0",
+          )}
         >
+          {!loaded && (
+            <div aria-hidden data-loading-overlay className="absolute inset-0 grid place-items-center overflow-hidden bg-surface">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent motion-safe:animate-shimmer" />
+              <Spinner tone="muted" label="" />
+            </div>
+          )}
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/0 to-black/0" />
 
           {item.category === "film" && item.duration && (
@@ -146,7 +172,7 @@ function WorkCard({ item, content, onOpen }: { item: WorkItem; content: WorkCont
         type="button"
         onClick={(event) => onOpen(event.currentTarget)}
         aria-haspopup="dialog"
-        aria-label={`${playable ? content.playLabel : content.openLabel}: ${item.title}, ${item.client.name}`}
+        aria-label={`${playable ? content.playLabel : content.openLabel}: ${item.title}, ${byline(item, content)}`}
         className="absolute inset-0 cursor-pointer rounded-xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
       />
     </article>
@@ -177,7 +203,11 @@ function ProjectModal({
       className={vertical ? "max-w-[min(26rem,calc((100dvh-9rem)*9/16))]" : embed ? "max-w-5xl" : "max-w-3xl"}
     >
       <div className="min-h-0 flex-1 bg-black">
-        {embed ? <ProjectVideo embed={embed} item={item} /> : <ProjectImage item={item} />}
+        {embed ? (
+          <ProjectVideo embed={embed} item={item} loadingLabel={content.loadingLabel} />
+        ) : (
+          <ProjectImage item={item} loadingLabel={content.loadingLabel} />
+        )}
       </div>
 
       <footer className="flex flex-wrap items-center gap-x-4 gap-y-3 p-4">
@@ -188,8 +218,8 @@ function ProjectModal({
           <div className="min-w-0">
             <DialogTitle className="truncate">{item.title}</DialogTitle>
             <p className="flex items-center gap-1 text-sm text-muted-foreground">
-              <span className="truncate">{item.client.name}</span>
-              {item.client.verified && (
+              <span className="truncate">{byline(item, content)}</span>
+              {isVerifiedClient(item) && (
                 <BadgeCheckIcon role="img" aria-label={content.verifiedLabel} className="size-3.5 shrink-0 text-primary" />
               )}
               {item.category === "film" && item.duration && (
@@ -224,17 +254,40 @@ function ProjectModal({
   );
 }
 
-function ProjectVideo({ embed, item }: { embed: VideoEmbed; item: WorkItem }) {
+/** Centered aperture spinner that fades out once the media inside the same box is ready. */
+function MediaLoading({ loading, label }: { loading: boolean; label: string }) {
+  return (
+    <div
+      aria-hidden={!loading}
+      className={cn(
+        "pointer-events-none absolute inset-0 z-1 grid place-items-center transition-opacity duration-500 motion-reduce:transition-none",
+        loading ? "opacity-100" : "opacity-0",
+      )}
+    >
+      {loading && <Spinner size="lg" tone="overlay" label={label} />}
+    </div>
+  );
+}
+
+function ProjectVideo({ embed, item, loadingLabel }: { embed: VideoEmbed; item: WorkItem; loadingLabel: string }) {
+  const [ready, setReady] = React.useState(false);
+
   if (embed.kind === "file") {
     return (
-      <video
-        src={embed.src}
-        poster={item.image.src || undefined}
-        controls
-        autoPlay
-        playsInline
-        className={cn("mx-auto block w-full bg-black", MEDIA_MAX_H)}
-      />
+      <div className="relative">
+        <video
+          src={embed.src}
+          poster={item.image.src || undefined}
+          controls
+          autoPlay
+          playsInline
+          onPlaying={() => setReady(true)}
+          onCanPlay={() => setReady(true)}
+          onError={() => setReady(true)}
+          className={cn("mx-auto block w-full bg-black", MEDIA_MAX_H)}
+        />
+        <MediaLoading loading={!ready} label={loadingLabel} />
+      </div>
     );
   }
   // Mounted only while the modal is open, so the player loads on demand and stops when it closes.
@@ -246,27 +299,41 @@ function ProjectVideo({ embed, item }: { embed: VideoEmbed; item: WorkItem }) {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
-        className="absolute inset-0 size-full"
+        onLoad={() => setReady(true)}
+        className={cn("absolute inset-0 size-full transition-opacity duration-500", ready ? "opacity-100" : "opacity-0")}
       />
+      <MediaLoading loading={!ready} label={loadingLabel} />
     </div>
   );
 }
 
-function ProjectImage({ item }: { item: WorkItem }) {
+function ProjectImage({ item, loadingLabel }: { item: WorkItem; loadingLabel: string }) {
+  const [ready, setReady] = React.useState(false);
+
   if (!item.image.src) {
     return <div role="img" aria-label={item.image.alt} className={cn("aspect-[4/5] bg-surface bg-stripes", MEDIA_MAX_H)} />;
   }
   // width/height only reserve a 4:5 box until the file loads; then the image keeps its own proportions,
   // capped to the screen, so the frame hugs it instead of showing letterbox bars.
   return (
-    <Image
-      src={item.image.src}
-      alt={item.image.alt}
-      width={1600}
-      height={2000}
-      sizes="(min-width: 768px) 48rem, 100vw"
-      quality={90}
-      className={cn("mx-auto block h-auto w-auto max-w-full", MEDIA_MAX_H)}
-    />
+    // Until the file arrives the image has no size, so the box keeps a portrait-ish height for the spinner.
+    <div className={cn("relative grid place-items-center", !ready && "min-h-[min(calc(100dvh-9rem),36rem)]")}>
+      <Image
+        src={item.image.src}
+        alt={item.image.alt}
+        width={1600}
+        height={2000}
+        sizes="(min-width: 768px) 48rem, 100vw"
+        quality={90}
+        onLoad={() => setReady(true)}
+        onError={() => setReady(true)}
+        className={cn(
+          "mx-auto block h-auto w-auto max-w-full transition-opacity duration-500 motion-reduce:transition-none",
+          MEDIA_MAX_H,
+          ready ? "opacity-100" : "opacity-0",
+        )}
+      />
+      <MediaLoading loading={!ready} label={loadingLabel} />
+    </div>
   );
 }

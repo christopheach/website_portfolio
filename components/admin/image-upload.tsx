@@ -1,11 +1,12 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { ImageUpIcon, LoaderCircleIcon, XIcon } from "lucide-react";
+import { ImageUpIcon, XIcon } from "lucide-react";
 
 import type { StoredMedia } from "@/types/project";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 type Props = {
   /** Prefix of the hidden inputs submitted with the form: `<name>Url` and `<name>FileId`. */
@@ -72,7 +73,7 @@ export function ImageUpload({ name, label, hint, defaultValue, error, shape = "p
           )}
           {uploading && (
             <div className="absolute inset-0 grid place-items-center bg-black/60">
-              <LoaderCircleIcon aria-hidden className="size-5 animate-spin" />
+              <Spinner tone="overlay" label="Envoi en cours" />
             </div>
           )}
         </div>

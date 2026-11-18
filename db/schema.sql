@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS projects (
   position              integer NOT NULL,
   title                 text NOT NULL,
   category              text NOT NULL CHECK (category IN ('photo', 'film')),
-  client_name           text NOT NULL,
+  -- 'client' = work for someone (client_* columns apply), 'personal' = the studio's own project.
+  kind                  text NOT NULL DEFAULT 'client' CHECK (kind IN ('client', 'personal')),
+  client_name           text,
   client_verified       boolean NOT NULL DEFAULT true,
   client_avatar_url     text,
   client_avatar_file_id text,
@@ -22,3 +24,11 @@ CREATE TABLE IF NOT EXISTS projects (
 );
 
 CREATE INDEX IF NOT EXISTS projects_position_idx ON projects (position);
+
+-- 2026-11: project type + optional client name (for databases created before).
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS kind text NOT NULL DEFAULT 'client';
+DO $$ BEGIN
+  ALTER TABLE projects ADD CONSTRAINT projects_kind_check CHECK (kind IN ('client', 'personal'));
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+ALTER TABLE projects ALTER COLUMN client_name DROP NOT NULL;

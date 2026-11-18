@@ -2,12 +2,14 @@
 
 import * as React from "react";
 
+import type { VideoAsset } from "@/config/media";
+import { BackgroundVideo } from "@/components/ui/background-video";
 import { Button } from "@/components/ui/button";
 import { Glow } from "@/components/ui/glow";
 
 type GlassFrameProps = {
-  /** Video URL, e.g. mediaUrl("/videos/film.mp4"). Plays muted, on a loop, as a background. Leave out for an empty frame. */
-  videoSrc?: string;
+  /** Background video, e.g. videoAsset("film"). Plays muted, on a loop, while on screen. Leave out for an empty frame. */
+  video?: VideoAsset;
   /** Small line above the title. */
   eyebrow?: string;
   title?: string;
@@ -18,26 +20,20 @@ type GlassFrameProps = {
 
 /** 16:9 frosted-glass panel with an optional background video and centred text on top. */
 export function GlassFrame({
-  videoSrc,
+  video,
   eyebrow,
   title,
   description,
   cta,
 }: GlassFrameProps) {
   const titleId = React.useId();
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-
-  // People who ask for reduced motion get a still frame.
-  React.useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) videoRef.current?.pause();
-  }, []);
 
   const hasText = Boolean(eyebrow || title || description || cta);
 
   return (
     <section
       aria-labelledby={title ? titleId : undefined}
-      aria-hidden={!title && !videoSrc ? true : undefined}
+      aria-hidden={!title && !video ? true : undefined}
       className="relative isolate pb-14 md:pb-20"
     >
       <div className="container-page">
@@ -51,20 +47,14 @@ export function GlassFrame({
           <div
             className={`relative grid place-items-center overflow-hidden rounded-[1.25rem] md:rounded-[1.75rem] ${
               hasText ? "aspect-[4/5] sm:aspect-video" : "aspect-video"
-            } ${videoSrc ? "bg-black" : "bg-white/[0.02]"}`}
+            } ${video ? "bg-black" : "bg-white/[0.02]"}`}
           >
-            {videoSrc && (
+            {video && (
               <>
-                <video
-                  ref={videoRef}
-                  src={videoSrc}
-                  aria-hidden
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  className="absolute inset-0 size-full object-cover"
+                <BackgroundVideo
+                  video={video}
+                  className="absolute inset-0"
+                  sizes="(min-width: 1536px) 1440px, 100vw"
                 />
                 {hasText && (
                   // Darkens the video so the white text stays readable.

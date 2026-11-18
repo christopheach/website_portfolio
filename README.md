@@ -38,6 +38,18 @@ Photos and videos are not in the repo: they are hosted on Zipline and listed in 
 
 To replace a file, delete its line from the manifest and run the upload again.
 
+### Background videos
+
+Videos are never uploaded as-is. Put the master in `media-originals/videos/` (git-ignored), then:
+
+1. `npm run media:videos` builds `<name>.mp4` (desktop, 1080p), `<name>-small.mp4` (phones, 720p) and
+   `<name>-poster.jpg` in `media-src/videos/`: muted H.264 at 1–2.5 Mbps with faststart (`scripts/optimize-videos.mjs`).
+2. `npm run media:upload`.
+3. Use `videoAsset("<name>")` (e.g. `<GlassFrame video={videoAsset("iceman")} />`).
+
+`components/ui/background-video.tsx` shows the poster, downloads nothing until the video is about to scroll into view,
+picks the phone or desktop file, plays it from JS and pauses it off-screen. With reduced motion it keeps the poster.
+
 ## Components
 
 Customised shadcn: `button` (default/secondary/outline/ghost/nav/link, `shape="pill"`), `badge` (+ `BadgeDot`),
@@ -46,7 +58,8 @@ Customised shadcn: `button` (default/secondary/outline/ghost/nav/link, `shape="p
 
 New, same conventions (cva, `data-slot`, `cn()`, Radix where relevant): `section` (Section, SectionHeader, SectionEyebrow,
 SectionTitle, SectionDescription), `media-image`, `calendar` (keyboard-navigable date grid), `compare-slider`
-(Radix Slider), `slideshow`, `marquee`, `number-ticker`, `rating`, `icon-tile`, `glow`, `viewfinder`.
+(Radix Slider), `slideshow`, `marquee`, `number-ticker`, `rating`, `icon-tile`, `glow`, `viewfinder`,
+`dialog`, `spinner` (camera-aperture loading indicator), `background-video`.
 
 ## Motion
 
@@ -66,7 +79,8 @@ projects of the "Projets" section (the samples stay until at least one project i
 - **Images** are uploaded to Zipline (`lib/zipline.ts`) through `app/admin/api/upload/route.ts`, so the Zipline
   token never reaches the browser. Replaced or deleted images are removed from Zipline too.
 - **Project data** is stored in Postgres (`DATABASE_URL`, `lib/db.ts`, `lib/projects.ts`). The schema is in
-  `db/schema.sql`; run `npm run db:migrate` once per environment (it is safe to re-run).
+  `db/schema.sql`. `npm run start` applies it automatically first (`prestart`); run `npm run db:migrate` yourself
+  when using `next dev` or another start command. It is safe to re-run.
 - **Auth** is a single password (`ADMIN_PASSWORD`) with a signed httpOnly cookie (`lib/auth.ts`, 7 days).
 - Saving revalidates `/`, so the home page stays static and updates right after each change.
 

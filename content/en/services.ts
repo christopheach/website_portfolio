@@ -1,4 +1,4 @@
-import { media, mediaUrl } from "@/config/media";
+import { media, videoAsset } from "@/config/media";
 import type { ServicesContent } from "@/types/content";
 
 const bookShoot = { label: "Book a shoot", href: "#contact" };
@@ -27,7 +27,7 @@ export const services = {
         "I plan the edit before I shoot, so you get coverage made for cutting: cutaways, movement and sound that keep people watching.",
       ],
       cta: bookShoot,
-      media: { type: "video", src: mediaUrl("/videos/hair-style-check.mp4"), aspect: "9/16", label: 'Vertical video clip "Hair Style Check"' },
+      media: { type: "video", video: videoAsset("hair-style-check"), aspect: "9/16", label: 'Vertical video clip "Hair Style Check"' },
     },
     {
       id: "narrative",
@@ -37,7 +37,7 @@ export const services = {
         "I work solo for intimate projects, or bring a small crew with a gaffer, sound recordist and stylist for bigger days.",
       ],
       cta: bookShoot,
-      media: { type: "video", src: mediaUrl("/videos/recap.mp4"), aspect: "16/9", label: 'Video clip "Recap"' },
+      media: { type: "video", video: videoAsset("recap"), aspect: "16/9", label: 'Video clip "Recap"' },
     },
     {
       id: "grading",

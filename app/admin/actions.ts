@@ -7,7 +7,7 @@ import { createSession, destroySession, isPasswordValid, requireAdmin } from "@/
 import { createProject, deleteProject, moveProject, toggleProjectPublished, updateProject } from "@/lib/projects";
 import { getVideoEmbed } from "@/lib/video-embed";
 import { deleteFromZiplineQuietly } from "@/lib/zipline";
-import type { WorkCategory } from "@/types/content";
+import type { ProjectKind, WorkCategory } from "@/types/content";
 import type { ProjectInput } from "@/types/project";
 
 export type FormState = { error?: string; fieldErrors?: Partial<Record<string, string>> };
@@ -37,6 +37,7 @@ export async function logout() {
 /* ------------------------------------------------------------------ */
 
 const CATEGORIES: WorkCategory[] = ["photo", "film"];
+const KINDS: ProjectKind[] = ["client", "personal"];
 
 /** Only accept image URLs served by our own Zipline instance. */
 function isZiplineUrl(value: string) {
@@ -50,17 +51,20 @@ function parseProject(formData: FormData): { input?: ProjectInput; fieldErrors?:
 
   const title = text("title");
   const category = text("category") as WorkCategory;
-  const clientName = text("clientName");
+  const kind = text("kind") as ProjectKind;
+  const isClient = kind === "client";
+  // Client fields are ignored (and their logo removed) for personal projects.
+  const clientName = isClient ? text("clientName") : "";
   const duration = text("duration");
   const href = text("href");
   const coverUrl = text("coverUrl");
-  const avatarUrl = text("avatarUrl");
+  const avatarUrl = isClient ? text("avatarUrl") : "";
 
   if (!title) fieldErrors.title = "Le titre est obligatoire.";
   else if (title.length > 120) fieldErrors.title = "120 caractères maximum.";
   if (!CATEGORIES.includes(category)) fieldErrors.category = "Choisissez Photo ou Vidéo.";
-  if (!clientName) fieldErrors.clientName = "Le nom du client est obligatoire.";
-  else if (clientName.length > 80) fieldErrors.clientName = "80 caractères maximum.";
+  if (!KINDS.includes(kind)) fieldErrors.kind = "Choisissez le type de projet.";
+  if (clientName.length > 80) fieldErrors.clientName = "80 caractères maximum.";
   if (!coverUrl) fieldErrors.cover = "Ajoutez une image de couverture.";
   else if (!isZiplineUrl(coverUrl)) fieldErrors.cover = "Image invalide, renvoyez-la.";
   if (avatarUrl && !isZiplineUrl(avatarUrl)) fieldErrors.avatar = "Logo invalide, renvoyez-le.";
@@ -78,9 +82,10 @@ function parseProject(formData: FormData): { input?: ProjectInput; fieldErrors?:
     input: {
       title,
       category,
+      kind,
       client: {
-        name: clientName,
-        verified: formData.get("clientVerified") === "on",
+        name: clientName || undefined,
+        verified: isClient && formData.get("clientVerified") === "on",
         avatar: avatarUrl ? { url: avatarUrl, fileId: text("avatarFileId") || undefined } : undefined,
       },
       cover: { url: coverUrl, fileId: text("coverFileId") || undefined, alt: text("coverAlt") || title },

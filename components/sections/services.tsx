@@ -2,9 +2,11 @@
 
 import * as React from "react";
 
+import type { VideoAsset } from "@/config/media";
 import type { ServiceMedia, ServicesContent, UiStrings } from "@/types/content";
 import { cn, interpolate } from "@/lib/utils";
 import { DESKTOP_MOTION_OK, gsap, useGSAP } from "@/lib/gsap";
+import { BackgroundVideo } from "@/components/ui/background-video";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { CompareSlider, CompareSliderAfter, CompareSliderBefore, CompareSliderLabel } from "@/components/ui/compare-slider";
@@ -119,7 +121,7 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
       );
 
     case "video":
-      return <ServiceVideo src={media.src} aspect={media.aspect} label={media.label} />;
+      return <ServiceVideo video={media.video} aspect={media.aspect} label={media.label} />;
 
     case "compare": {
       // While both sides share one placeholder photo, fake an ungraded "log" look.
@@ -153,15 +155,9 @@ function ServiceMediaView({ media, title, ui }: { media: ServiceMedia; title: st
 }
 
 /** Muted looping video kept in its own format (e.g. 9:16), sized to the card height on desktop. */
-function ServiceVideo({ src, aspect, label }: { src: string; aspect: string; label: string }) {
-  const videoRef = React.useRef<HTMLVideoElement>(null);
+function ServiceVideo({ video, aspect, label }: { video: VideoAsset; aspect: string; label: string }) {
   const [w, h] = aspect.split("/").map(Number);
   const isPortrait = h > w;
-
-  // Reduced motion: show a still frame instead of playing.
-  React.useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) videoRef.current?.pause();
-  }, []);
 
   return (
     <div
@@ -172,16 +168,11 @@ function ServiceVideo({ src, aspect, label }: { src: string; aspect: string; lab
         isPortrait ? "w-full max-w-xs lg:h-full lg:max-h-full lg:w-auto lg:max-w-full" : "w-full",
       )}
     >
-      <video
-        ref={videoRef}
-        src={src}
-        aria-label={label}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        className="size-full object-cover"
+      <BackgroundVideo
+        video={video}
+        label={label}
+        className="size-full"
+        sizes={isPortrait ? "(min-width: 1024px) 24rem, 20rem" : "(min-width: 1024px) 40vw, 90vw"}
       />
     </div>
   );

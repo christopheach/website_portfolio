@@ -17,6 +17,9 @@ export const work = {
   openLabel: "Open project",
   playLabel: "Play video",
   closeLabel: "Close",
+  personalLabel: "Personal project",
+  clientLabel: "Client project",
+  loadingLabel: "Loading…",
   items: [
     {
       id: "maison-lune",

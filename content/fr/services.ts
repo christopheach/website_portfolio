@@ -1,4 +1,4 @@
-import { media, mediaUrl } from "@/config/media";
+import { media, videoAsset } from "@/config/media";
 import type { ServicesContent } from "@/types/content";
 
 const bookShoot = { label: "Réserver un tournage", href: "#contact" };
@@ -27,7 +27,7 @@ export const services = {
         "Je prépare le montage avant de tourner : vous obtenez des rushes pensés pour le montage, avec plans de coupe, mouvements et son qui donnent envie de rester.",
       ],
       cta: bookShoot,
-      media: { type: "video", src: mediaUrl("/videos/hair-style-check.mp4"), aspect: "9/16", label: "Extrait vidéo verticale « Hair Style Check »" },
+      media: { type: "video", video: videoAsset("hair-style-check"), aspect: "9/16", label: "Extrait vidéo verticale « Hair Style Check »" },
     },
     {
       id: "narrative",
@@ -37,7 +37,7 @@ export const services = {
         "Je travaille seul pour les projets intimes, ou avec une petite équipe (chef électro, ingé son et styliste) pour les journées plus ambitieuses.",
       ],
       cta: bookShoot,
-      media: { type: "video", src: mediaUrl("/videos/recap.mp4"), aspect: "16/9", label: "Extrait vidéo « Recap »" },
+      media: { type: "video", video: videoAsset("recap"), aspect: "16/9", label: "Extrait vidéo « Recap »" },
     },
     {
       id: "grading",

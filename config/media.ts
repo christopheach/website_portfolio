@@ -31,6 +31,25 @@ export type MediaAsset = {
   blurDataURL?: string;
 };
 
+/** A muted background video: desktop file, optional phone file and poster (see scripts/optimize-videos.mjs). */
+export type VideoAsset = {
+  src: string;
+  srcSmall?: string;
+  poster?: string;
+};
+
+/**
+ * The web versions built by `npm run media:videos` from media-originals/videos/<name>.*
+ * e.g. videoAsset("iceman") -> /videos/iceman.mp4, /videos/iceman-small.mp4, /videos/iceman-poster.jpg
+ */
+export function videoAsset(name: string): VideoAsset {
+  return {
+    src: mediaUrl(`/videos/${name}.mp4`),
+    srcSmall: mediaUrl(`/videos/${name}-small.mp4`),
+    poster: mediaUrl(`/videos/${name}-poster.jpg`),
+  };
+}
+
 /** Temporary photography from picsum.photos. Seeds keep each slot's image stable. */
 const placeholder = (seed: string, width: number, height: number) =>
   `https://picsum.photos/seed/fayad-${seed}/${width}/${height}`;

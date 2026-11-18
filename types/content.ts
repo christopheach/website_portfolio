@@ -1,4 +1,4 @@
-import type { MediaAsset } from "@/config/media";
+import type { MediaAsset, VideoAsset } from "@/config/media";
 
 export type Locale = "en" | "fr";
 
@@ -76,7 +76,7 @@ export type ServiceMedia =
   | { type: "image"; asset: MediaAsset }
   | { type: "slideshow"; assets: readonly MediaAsset[]; /** "portrait" = 4:5 frame; default is 4:3. */ aspect?: "landscape" | "portrait" }
   /** Muted looping video. `aspect` is the video's own width/height, e.g. "9/16" for a vertical reel. */
-  | { type: "video"; src: string; aspect: string; label: string }
+  | { type: "video"; video: VideoAsset; aspect: string; label: string }
   | { type: "compare"; before: MediaAsset; after: MediaAsset; beforeLabel: string; afterLabel: string };
 
 export type ServiceItem = {
@@ -91,12 +91,17 @@ export type ServicesContent = SectionIntro & { items: ServiceItem[] };
 
 export type WorkCategory = "photo" | "film";
 export type WorkFilter = "all" | WorkCategory;
+/** "client" = commissioned work, "personal" = the studio's own project. */
+export type ProjectKind = "client" | "personal";
 
 export type WorkItem = {
   id: string;
   title: string;
   category: WorkCategory;
-  client: { name: string; avatar: MediaAsset; verified?: boolean };
+  /** Defaults to "client". */
+  kind?: ProjectKind;
+  /** `name` is optional: without it the card shows the project type instead. */
+  client: { name?: string; avatar: MediaAsset; verified?: boolean };
   image: MediaAsset;
   /** Shown on film projects, e.g. "1:05". */
   duration?: string;
@@ -115,6 +120,11 @@ export type WorkContent = SectionIntro & {
   openLabel: string;
   playLabel: string;
   closeLabel: string;
+  /** Shown instead of a client name: personal projects, or client projects without a name. */
+  personalLabel: string;
+  clientLabel: string;
+  /** Announced while a project's video or image loads in the modal. */
+  loadingLabel: string;
 };
 
 export type WhyIcon = "aperture" | "map-pin" | "timer" | "sparkles" | "camera" | "film";

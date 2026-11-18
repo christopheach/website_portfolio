@@ -62,7 +62,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* Lets CSS hide the hero until GSAP animates it in; without JS everything stays visible. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <noscript>
-          <style>{"[data-reveal]{opacity:1!important;transform:none!important}"}</style>
+          <style>{"[data-reveal],[data-fade-in]{opacity:1!important;transform:none!important}[data-loading-overlay]{display:none!important}"}</style>
         </noscript>
       </head>
       <body>

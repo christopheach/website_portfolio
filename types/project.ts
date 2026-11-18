@@ -1,4 +1,4 @@
-import type { WorkCategory } from "@/types/content";
+import type { ProjectKind, WorkCategory } from "@/types/content";
 
 /** A file stored on Zipline. `fileId` lets the backoffice delete it when it is replaced. */
 export type StoredMedia = {
@@ -11,8 +11,10 @@ export type Project = {
   id: string;
   title: string;
   category: WorkCategory;
+  kind: ProjectKind;
+  /** Only meaningful for client projects. */
   client: {
-    name: string;
+    name?: string;
     verified: boolean;
     avatar?: StoredMedia;
   };

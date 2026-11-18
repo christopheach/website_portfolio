@@ -1,5 +1,5 @@
 import { getDictionary } from "@/content";
-import { mediaUrl } from "@/config/media";
+import { videoAsset } from "@/config/media";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { About } from "@/components/sections/about";
@@ -33,19 +33,19 @@ export default async function HomePage() {
         <Hero content={t.hero} ui={t.ui} />
         {/* Placeholder text: change eyebrow, title, description and the button here. */}
         <GlassFrame
-          videoSrc={mediaUrl("/videos/LSL_NOEL_2026_VDEF_169_SANS_ST.mp4")}
+          video={videoAsset("LSL_NOEL_2026_VDEF_169_SANS_ST")}
           eyebrow="Photographie & vidéographie"
           title="Les secrets de Loly"
           cta={{ label: "VOIR +", href: "#work" }}
         />
         <GlassFrame
-          videoSrc={mediaUrl("/videos/iceman.mp4")}
+          video={videoAsset("iceman")}
           eyebrow="Photographie & vidéographie"
           title="Ice Man"
           cta={{ label: "VOIR +", href: "#work" }}
         />
         <GlassFrame
-          videoSrc={mediaUrl("/videos/nyx.mp4")}
+          video={videoAsset("nyx")}
           eyebrow="Photographie & vidéographie"
           title="NYX"
           cta={{ label: "VOIR +", href: "#work" }}

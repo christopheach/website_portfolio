@@ -2,9 +2,10 @@
 
 import { startTransition, useActionState, useState } from "react";
 import Link from "next/link";
+import { ChevronDownIcon } from "lucide-react";
 
 import { saveProject, type FormState } from "@/app/admin/actions";
-import type { WorkCategory } from "@/types/content";
+import type { ProjectKind, WorkCategory } from "@/types/content";
 import type { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +41,7 @@ export function ProjectForm({ project }: { project?: Project }) {
     {},
   );
   const [category, setCategory] = useState<WorkCategory>(project?.category ?? "photo");
+  const [kind, setKind] = useState<ProjectKind>(project?.kind ?? "client");
   const [uploads, setUploads] = useState(0);
   const errors = state.fieldErrors ?? {};
   const busy = pending || uploads > 0;
@@ -160,37 +162,66 @@ export function ProjectForm({ project }: { project?: Project }) {
       </Card>
 
       <Card className="gap-5">
-        <h2 className="font-medium">Client</h2>
         <div className="space-y-2">
-          <Label htmlFor="clientName">Nom</Label>
-          <Input
-            id="clientName"
-            name="clientName"
-            defaultValue={project?.client.name}
-            placeholder="Maison Lune"
-            maxLength={80}
-            required
-            aria-invalid={errors.clientName ? true : undefined}
-            aria-describedby={errors.clientName ? "clientName-error" : undefined}
-          />
-          <FieldError id="clientName-error" message={errors.clientName} />
+          <Label htmlFor="kind">Type de projet</Label>
+          <div className="relative">
+            <select
+              id="kind"
+              name="kind"
+              value={kind}
+              onChange={(event) => setKind(event.target.value as ProjectKind)}
+              aria-describedby="kind-hint"
+              className="h-10 w-full appearance-none rounded-md border border-input bg-surface pr-9 pl-3 text-sm text-foreground outline-none transition-[border-color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/40"
+            >
+              <option value="client">Projet client</option>
+              <option value="personal">Projet personnel</option>
+            </select>
+            <ChevronDownIcon aria-hidden className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          </div>
+          <p id="kind-hint" className="text-xs text-muted-foreground">
+            {kind === "client"
+              ? "Réalisé pour un client. Son nom et son logo s'affichent sur la carte s'ils sont renseignés."
+              : "Projet du studio : la carte affiche « Projet personnel » avec le logo Studio Cabines."}
+          </p>
+          <FieldError id="kind-error" message={errors.kind} />
         </div>
-        <ImageUpload
-          name="avatar"
-          label="Logo ou photo (optionnel)"
-          hint="Image carrée, affichée en petit à côté du nom."
-          shape="round"
-          removable
-          defaultValue={project?.client.avatar}
-          error={errors.avatar}
-          onUploadingChange={trackUpload}
-        />
-        <Checkbox
-          name="clientVerified"
-          label="Client vérifié"
-          description="Affiche le badge de vérification à côté du nom."
-          defaultChecked={project?.client.verified ?? true}
-        />
+
+        {kind === "client" && (
+          <>
+            <div className="space-y-2">
+              <Label htmlFor="clientName">Nom du client (optionnel)</Label>
+              <Input
+                id="clientName"
+                name="clientName"
+                defaultValue={project?.client.name}
+                placeholder="Maison Lune"
+                maxLength={80}
+                aria-invalid={errors.clientName ? true : undefined}
+                aria-describedby={errors.clientName ? "clientName-error" : "clientName-hint"}
+              />
+              <p id="clientName-hint" className="text-xs text-muted-foreground">
+                Laissez vide pour afficher « Projet client ».
+              </p>
+              <FieldError id="clientName-error" message={errors.clientName} />
+            </div>
+            <ImageUpload
+              name="avatar"
+              label="Logo ou photo du client (optionnel)"
+              hint="Image carrée, affichée en petit à côté du nom."
+              shape="round"
+              removable
+              defaultValue={project?.client.avatar}
+              error={errors.avatar}
+              onUploadingChange={trackUpload}
+            />
+            <Checkbox
+              name="clientVerified"
+              label="Client vérifié"
+              description="Affiche le badge de vérification à côté du nom."
+              defaultChecked={project?.client.verified ?? true}
+            />
+          </>
+        )}
       </Card>
 
       <Card className="gap-4">
