@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Glow } from "@/components/ui/glow";
 
 type GlassFrameProps = {
-  /** Path of a video in /public, e.g. "/videos/film.mp4". Plays muted, on a loop, as a background. Leave out for an empty frame. */
+  /** Video URL, e.g. mediaUrl("/videos/film.mp4"). Plays muted, on a loop, as a background. Leave out for an empty frame. */
   videoSrc?: string;
   /** Small line above the title. */
   eyebrow?: string;

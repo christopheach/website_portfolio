@@ -1,5 +1,12 @@
 import type { NextConfig } from "next";
 
+import mediaManifest from "./config/media-manifest.json";
+
+// Site media (config/media-manifest.json) and backoffice uploads are served by Zipline at <host>/raw/<file>.
+const ziplineOrigins = new Set(
+  [process.env.ZIPLINE_URL, ...Object.values(mediaManifest)].filter(Boolean).map((url) => new URL(url!).origin),
+);
+
 const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
@@ -18,6 +25,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "fastly.picsum.photos" },
       // YouTube video covers (showreel).
       { protocol: "https", hostname: "i.ytimg.com" },
+      ...[...ziplineOrigins].map((origin) => {
+        const { protocol, hostname, port } = new URL(origin);
+        return { protocol: protocol.replace(":", "") as "http" | "https", hostname, port, pathname: "/raw/**" };
+      }),
     ],
   },
 };

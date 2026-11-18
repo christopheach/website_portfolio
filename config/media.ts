@@ -1,17 +1,29 @@
 /**
  * Centralised media registry.
  *
- * Every image on the site is referenced from here, so swapping a placeholder
- * for a real photo means changing ONE `src` value:
+ * Every image on the site is referenced from here. Files are hosted on Zipline, not in the repo:
  *
- *   1. Drop the file into /public/images (e.g. /public/images/hero.jpg)
- *   2. Replace `placeholder("hero", 1200, 1500)` with "/images/hero.jpg"
+ *   1. Put the file in /media-src (git-ignored), e.g. /media-src/images/hero.jpg
+ *   2. Run `npm run media:upload` — it uploads new files and records their URL in media-manifest.json
+ *   3. Replace `placeholder("hero", 1200, 1500)` with mediaUrl("/images/hero.jpg")
  *
  * An empty `src` renders the striped placeholder used by the original template.
  */
 
+import manifest from "./media-manifest.json";
+
+/**
+ * Resolves a media key such as "/images/hero.jpg" to its Zipline URL.
+ * Throws on unknown keys so a missing upload fails the build instead of showing a broken image.
+ */
+export function mediaUrl(key: string): string {
+  const url = (manifest as Record<string, string>)[key];
+  if (!url) throw new Error(`Media "${key}" is not in config/media-manifest.json. Run \`npm run media:upload\`.`);
+  return url;
+}
+
 export type MediaAsset = {
-  /** Local path ("/images/x.jpg") or an allowed remote URL. Empty string = striped placeholder. */
+  /** mediaUrl("/images/x.jpg") or an allowed remote URL. Empty string = striped placeholder. */
   src: string;
   /** Describe what the image shows. Use "" only for purely decorative images. */
   alt: string;
@@ -25,16 +37,16 @@ const placeholder = (seed: string, width: number, height: number) =>
 
 export const media = {
   hero: {
-    portrait: { src: "/images/hero.jpg", alt: "Personne en chemise et cravate mangeant des chips sur un banc, photographiée en contre-plongée" },
+    portrait: { src: mediaUrl("/images/hero.jpg"), alt: "Personne en chemise et cravate mangeant des chips sur un banc, photographiée en contre-plongée" },
   },
   showreel: {
-    cover: { src: "/images/showreel.jpg", alt: "Deux personnes assises dans l'herbe d'un parc, discutant face aux toits de Paris" },
+    cover: { src: mediaUrl("/images/showreel.jpg"), alt: "Deux personnes assises dans l'herbe d'un parc, discutant face aux toits de Paris" },
   },
   services: {
     campaign: { src: placeholder("campaign", 1200, 900), alt: "Photo de campagne d'un mannequin dans une douce lumière de fenêtre" },
-    /** Auto-playing carousel of the "Photographie de marque & de campagne" card (files in /public/images/carousel). */
+    /** Auto-playing carousel of the "Photographie de marque & de campagne" card (files in /media-src/images/carousel). */
     campaignCarousel: Array.from({ length: 15 }, (_, i) => ({
-      src: `/images/carousel/campagne-${String(i + 1).padStart(2, "0")}.jpg`,
+      src: mediaUrl(`/images/carousel/campagne-${String(i + 1).padStart(2, "0")}.jpg`),
       alt: `Photo de marque et de campagne ${i + 1} sur 15`,
     })),
     shortForm: [
@@ -48,8 +60,8 @@ export const media = {
       { src: placeholder("mv-3", 1200, 900), alt: "Artiste en performance dans un studio sombre" },
     ],
     // Same photo on both sides: the "before" side is desaturated automatically to fake an ungraded look.
-    gradeBefore: { src: "/images/love-story.jpg", alt: "Photo « Love Story » avant étalonnage" },
-    gradeAfter: { src: "/images/love-story.jpg", alt: "La même photo « Love Story » après étalonnage" },
+    gradeBefore: { src: mediaUrl("/images/love-story.jpg"), alt: "Photo « Love Story » avant étalonnage" },
+    gradeAfter: { src: mediaUrl("/images/love-story.jpg"), alt: "La même photo « Love Story » après étalonnage" },
   },
   work: {
     lookbook: { src: placeholder("work-lookbook", 800, 1000), alt: "Mannequin en manteau ajusté pour un lookbook d'automne" },

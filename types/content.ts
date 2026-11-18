@@ -109,7 +109,12 @@ export type WorkContent = SectionIntro & {
   items: WorkItem[];
   verifiedLabel: string;
   filmLabel: string;
+  /** External link button in the project modal (photo projects, or videos that can't be embedded). */
   viewLabel: string;
+  /** Accessible names of the card buttons: "<label>: <title>, <client>". */
+  openLabel: string;
+  playLabel: string;
+  closeLabel: string;
 };
 
 export type WhyIcon = "aperture" | "map-pin" | "timer" | "sparkles" | "camera" | "film";

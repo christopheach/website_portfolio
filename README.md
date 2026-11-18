@@ -26,11 +26,17 @@ Set `NEXT_PUBLIC_SITE_URL` in production so canonical URLs, Open Graph, the site
 | `components/motion` | `MotionProvider` (respects reduced motion) and `Reveal` helpers. |
 | `lib/gsap.ts` | GSAP + ScrollTrigger registration and the reduced-motion media queries. |
 
-## Replacing placeholder images
+## Media files (Zipline)
 
-1. Put the file in `public/images/`, e.g. `public/images/hero.jpg`.
-2. In `config/media.ts`, change `src: placeholder("hero", 1000, 1250)` to `src: "/images/hero.jpg"` and update `alt`.
-3. When nothing uses picsum anymore, remove its entries from `images.remotePatterns` in `next.config.ts`.
+Photos and videos are not in the repo: they are hosted on Zipline and listed in `config/media-manifest.json`
+(key such as `/images/hero.jpg` → Zipline URL). Code uses them through `mediaUrl("/images/hero.jpg")`.
+
+1. Put the file in `media-src/` (git-ignored), e.g. `media-src/images/hero.jpg`.
+2. Run `npm run media:upload`. New files are uploaded and added to the manifest; existing ones are skipped.
+3. In `config/media.ts`, change `src: placeholder("hero", 1000, 1250)` to `src: mediaUrl("/images/hero.jpg")` and update `alt`.
+4. When nothing uses picsum anymore, remove its entries from `images.remotePatterns` in `next.config.ts`.
+
+To replace a file, delete its line from the manifest and run the upload again.
 
 ## Components
 
@@ -46,9 +52,25 @@ SectionTitle, SectionDescription), `media-image`, `calendar` (keyboard-navigable
 
 - Hero: one GSAP timeline (line-by-line headline, then copy and the viewfinder card), scroll parallax, mouse tilt.
 - Showreel: frame scales to full size on scroll. Services: sticky stacking cards on desktop.
+- Work: clicking a project opens a modal (`components/ui/dialog.tsx`). Video projects embed their link
+  (YouTube, Vimeo or a direct .mp4, parsed by `lib/video-embed.ts`); photo projects show the full image.
 - Work filter: Motion layout animation. Stats: count-up on view. Footer: glow rises on scroll.
 - All GSAP code runs inside `gsap.matchMedia("(prefers-reduced-motion: no-preference)")`; Motion uses
   `MotionConfig reducedMotion="user"`; CSS animations use `motion-safe:`/`motion-reduce:`.
+
+## Backoffice (`/admin`)
+
+Studio Cabines adds, edits, hides, reorders and deletes projects at `/admin`. Published projects replace the sample
+projects of the "Projets" section (the samples stay until at least one project is published).
+
+- **Images** are uploaded to Zipline (`lib/zipline.ts`) through `app/admin/api/upload/route.ts`, so the Zipline
+  token never reaches the browser. Replaced or deleted images are removed from Zipline too.
+- **Project data** is stored in Postgres (`DATABASE_URL`, `lib/db.ts`, `lib/projects.ts`). The schema is in
+  `db/schema.sql`; run `npm run db:migrate` once per environment (it is safe to re-run).
+- **Auth** is a single password (`ADMIN_PASSWORD`) with a signed httpOnly cookie (`lib/auth.ts`, 7 days).
+- Saving revalidates `/`, so the home page stays static and updates right after each change.
+
+Copy `.env.example` to `.env.local` and fill in the Zipline, database and admin values.
 
 ## Booking
 

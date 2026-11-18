@@ -14,6 +14,9 @@ export const work = {
   verifiedLabel: "Client vérifié",
   filmLabel: "Vidéo, {duration}",
   viewLabel: "Voir le projet",
+  openLabel: "Ouvrir le projet",
+  playLabel: "Lire la vidéo",
+  closeLabel: "Fermer",
   items: [
     {
       id: "maison-lune",

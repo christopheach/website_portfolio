@@ -5,3 +5,7 @@ next-env.d.ts
 *.tsbuildinfo
 .env*.local
 .DS_Store
+
+
+# Original media files (served from Zipline, see config/media-manifest.json)
+/media-src
